@@ -1,12 +1,10 @@
 import { z } from "zod";
+import { baseSchema } from "@/db/schema/users";
 
-export const signinSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email address !",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters long !",
-  }),
+// Zod Schema for sign in
+export const signInSchema = z.object({
+  email: baseSchema.shape.email,
+  password: baseSchema.shape.password,
 });
 
-export type SigninSchemaT = z.infer<typeof signinSchema>;
+export type SignInSchemaT = z.infer<typeof signInSchema>;

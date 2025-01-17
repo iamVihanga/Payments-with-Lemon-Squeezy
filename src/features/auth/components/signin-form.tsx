@@ -18,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 import {
-  signinSchema,
-  type SigninSchemaT,
+  signInSchema,
+  type SignInSchemaT,
 } from "@/features/auth/schemas/signin-schema";
 import { cn } from "@/lib/utils";
 
@@ -36,15 +36,15 @@ type Props = {
 export function SigninForm({ className }: Props) {
   const [isPending, startSigninAction] = useTransition();
 
-  const form = useForm<SigninSchemaT>({
-    resolver: zodResolver(signinSchema),
+  const form = useForm<SignInSchemaT>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function handleFormSubmit(formData: SigninSchemaT) {}
+  function handleFormSubmit(formData: SignInSchemaT) {}
 
   return (
     <div className={cn("grid gap-6", className)}>
