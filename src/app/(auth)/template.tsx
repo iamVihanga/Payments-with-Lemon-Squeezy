@@ -1,16 +1,25 @@
-import Image from "next/image";
 import React from "react";
+import { headers } from "next/headers";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 
 import AuthBGImage from "$/public/assets/auth-bg.jpg";
 import { Logo } from "@/components/logo";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Toaster } from "@/components/ui/sonner";
+import { auth } from "@/auth";
 
 type Props = {
   children: React.ReactNode;
 };
 
-export default function AuthLayout({ children }: Props) {
+export default async function AuthLayout({ children }: Props) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) redirect("/dashboard");
+
   return (
     <>
       <Toaster theme="system" position="bottom-left" />
