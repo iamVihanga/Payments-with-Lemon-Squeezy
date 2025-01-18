@@ -18,59 +18,51 @@ import {
 import { Input } from "@/components/ui/input";
 
 import {
-  signinSchema,
-  type SigninSchemaT,
-} from "@/features/auth/schemas/signin-schema";
+  resetPasswordSchema,
+  type ResetPasswordSchemaT,
+} from "@/features/auth/schemas/reset-password-schema";
 import { cn } from "@/lib/utils";
 
-import { GoogleAuthButton } from "./google-auth-button";
-import { GithubAuthButton } from "./github-auth-button";
-import { Separator } from "@/components/ui/separator";
-import { PasswordInput } from "@/components/ui/password-input";
 import { useRouter } from "next/navigation";
 import { authClient } from "../auth-client";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
 
 type Props = {
   className?: string;
+  token?: string;
 };
 
-export function SigninForm({ className }: Props) {
-  const [isPending, startSigninAction] = useTransition();
+export function ResetPasswordForm({ className, token }: Props) {
+  const [isPending, startResetAction] = useTransition();
   const toastId = useId();
   const router = useRouter();
 
-  const form = useForm<SigninSchemaT>({
-    resolver: zodResolver(signinSchema),
+  const form = useForm<ResetPasswordSchemaT>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      newPassword: "",
+      confirmPassword: "",
     },
   });
 
-  function handleFormSubmit(formData: SigninSchemaT) {
-    startSigninAction(async () => {
-      await authClient.signIn.email(
+  function handleFormSubmit(formData: ResetPasswordSchemaT) {
+    startResetAction(async () => {
+      await authClient.resetPassword(
         {
-          email: formData.email,
-          password: formData.password,
+          newPassword: formData.newPassword,
+          token: token,
         },
         {
           onRequest: () => {
-            toast.loading("Signing in...", { id: toastId, description: "" });
+            toast.loading("Changing Password...", { id: toastId });
           },
           onSuccess: () => {
-            toast.success("Signed in successfully", {
-              id: toastId,
-              description: "",
-            });
-            router.push("/dashboard");
-            router.refresh();
+            toast.success("Password changed successfully !", { id: toastId });
+            router.push("/signin");
           },
           onError: (ctx) => {
-            toast.error("Sign in Failed !", {
-              id: toastId,
-              description: ctx.error.message,
-            });
+            toast.error(ctx.error.message, { id: toastId });
           },
         }
       );
@@ -86,14 +78,14 @@ export function SigninForm({ className }: Props) {
         >
           <FormField
             control={form.control}
-            name="email"
+            name="newPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input
+                  <PasswordInput
                     disabled={isPending}
-                    placeholder="john.doe@example.com"
+                    placeholder="***********"
                     {...field}
                   />
                 </FormControl>
@@ -103,10 +95,10 @@ export function SigninForm({ className }: Props) {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <PasswordInput
                     disabled={isPending}
@@ -119,27 +111,16 @@ export function SigninForm({ className }: Props) {
             )}
           />
           <Button type="submit" className="w-full" loading={isPending}>
-            Login
+            Change Password
           </Button>
         </form>
       </Form>
 
       {/* Option texts */}
-      <div className="flex items-center text-center justify-between">
+      <div className="flex items-center text-center justify-center">
         <Button asChild variant={"link"} className="p-0">
           <Link href={"/signup"}>Need an account ? Sign Up</Link>
         </Button>
-        <Button asChild variant={"link"} className="p-0">
-          <Link href={"/forgot-password"}>Forgot Password</Link>
-        </Button>
-      </div>
-
-      <Separator />
-
-      {/* Auth Provider Buttons */}
-      <div className="flex flex-col space-y-4">
-        <GoogleAuthButton mode="login" />
-        <GithubAuthButton mode="login" />
       </div>
     </div>
   );

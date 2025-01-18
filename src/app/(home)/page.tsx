@@ -1,10 +1,9 @@
 import React from "react";
 
-import { PlanCard } from "@/features/payments/components/plan-card";
-import { plans } from "@/lib/mock-data";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 type Props = {};
 
@@ -41,29 +40,15 @@ export default function Homepage({}: Props) {
           </p>
 
           <div className="flex justify-center mt-8">
-            <Button className="w-fit group" variant={"yellow"}>
-              Get Started
-              <ArrowRight className="size-4 group-hover:ml-2 transition-all duration-100 ease-in-out" />
+            <Button className="w-fit group" variant={"yellow"} asChild>
+              <Link href={"/dashboard"}>
+                Get Started
+                <ArrowRight className="size-4 group-hover:ml-2 transition-all duration-100 ease-in-out" />
+              </Link>
             </Button>
           </div>
         </div>
       </div>
     </div>
   );
-}
-
-{
-  /* Plan cards */
-}
-{
-  /* <div className="container mx-auto py-12">
-    <h2 className="text-3xl font-bold text-center mb-8 font-heading">
-      Choose Your Plan
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {plans.map((plan, index) => (
-        <PlanCard key={index} {...plan} />
-      ))}
-    </div>
-  </div> */
 }

@@ -19,6 +19,16 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+
+    // This function is called when a user request reset password link
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Acme <onboarding@resend.dev>",
+        to: [user.email],
+        subject: "Reset your password",
+        html: '<a href="' + url + '">Reset password</a>',
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
@@ -34,6 +44,13 @@ export const auth = betterAuth({
         subject: "Verify your email address",
         html: '<a href="' + verificationUrl + '">Verify your email address</a>',
       });
+    },
+  },
+  socialProviders: {
+    github: {
+      enabled: true,
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     },
   },
 });

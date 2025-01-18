@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GoogleAuthButton } from "./google-auth-button";
-import { AppleAuthButton } from "./apple-auth-button";
+import { GithubAuthButton } from "./github-auth-button";
 import { Separator } from "@/components/ui/separator";
 import { PasswordInput } from "@/components/ui/password-input";
 import { authClient } from "../auth-client";
@@ -173,7 +173,7 @@ export function SignupForm({ className }: Props) {
       {/* Auth Provider Buttons */}
       <div className="flex flex-col space-y-4 mb-5">
         <GoogleAuthButton mode="signup" />
-        <AppleAuthButton mode="signup" />
+        <GithubAuthButton mode="signup" />
       </div>
 
       <div className="mb-5">
