@@ -43,6 +43,8 @@ export interface ButtonProps
   icon?: React.ReactNode;
 }
 
+export type VariantType = VariantProps<typeof buttonVariants>["variant"];
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

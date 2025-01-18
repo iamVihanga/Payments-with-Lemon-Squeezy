@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useId, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
@@ -18,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 
 import {
-  signInSchema,
-  type SignInSchemaT,
+  signinSchema,
+  type SigninSchemaT,
 } from "@/features/auth/schemas/signin-schema";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +27,8 @@ import { GoogleAuthButton } from "./google-auth-button";
 import { AppleAuthButton } from "./apple-auth-button";
 import { Separator } from "@/components/ui/separator";
 import { PasswordInput } from "@/components/ui/password-input";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { authClient } from "../auth-client";
 
 type Props = {
   className?: string;
@@ -35,16 +36,46 @@ type Props = {
 
 export function SigninForm({ className }: Props) {
   const [isPending, startSigninAction] = useTransition();
+  const toastId = useId();
+  const router = useRouter();
 
-  const form = useForm<SignInSchemaT>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<SigninSchemaT>({
+    resolver: zodResolver(signinSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  function handleFormSubmit(formData: SignInSchemaT) {}
+  function handleFormSubmit(formData: SigninSchemaT) {
+    startSigninAction(async () => {
+      await authClient.signIn.email(
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+        {
+          onRequest: () => {
+            toast.loading("Signing in...", { id: toastId, description: "" });
+          },
+          onSuccess: () => {
+            toast.success("Signed in successfully", {
+              id: toastId,
+              description: "",
+            });
+            router.push("/dashboard");
+            router.refresh();
+          },
+          onError: (ctx) => {
+            toast.error("Sign in Failed !", {
+              id: toastId,
+              description: ctx.error.message,
+            });
+          },
+        }
+      );
+    });
+  }
 
   return (
     <div className={cn("grid gap-6", className)}>

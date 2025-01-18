@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useId, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
@@ -27,6 +27,7 @@ import { GoogleAuthButton } from "./google-auth-button";
 import { AppleAuthButton } from "./apple-auth-button";
 import { Separator } from "@/components/ui/separator";
 import { PasswordInput } from "@/components/ui/password-input";
+import { authClient } from "../auth-client";
 
 type Props = {
   className?: string;
@@ -34,11 +35,12 @@ type Props = {
 
 export function SignupForm({ className }: Props) {
   const [isPending, startSignupAction] = useTransition();
+  const toastId = useId();
 
   const form = useForm<SignupSchemaT>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -46,7 +48,36 @@ export function SignupForm({ className }: Props) {
   });
 
   function handleFormSubmit(formData: SignupSchemaT) {
-    startSignupAction(async () => {});
+    startSignupAction(async () => {
+      await authClient.signUp.email(
+        {
+          email: formData.email,
+          name: formData.name,
+          password: formData.password,
+        },
+        {
+          onRequest: () => {
+            toast.loading("Signing up...", { id: toastId });
+          },
+          onSuccess: () => {
+            toast.success("Successfully Signed Up!", {
+              id: toastId,
+              description:
+                "Your account has been created !, Check your email for verification link.",
+            });
+
+            form.reset();
+            redirect("/signin");
+          },
+          onError: (ctx) => {
+            toast.error("Signup failed !", {
+              id: toastId,
+              description: ctx.error.message || "Something went wrong",
+            });
+          },
+        }
+      );
+    });
   }
 
   return (
@@ -58,7 +89,7 @@ export function SignupForm({ className }: Props) {
         >
           <FormField
             control={form.control}
-            name="fullName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Full Name</FormLabel>

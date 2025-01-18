@@ -1,1 +1,4 @@
-export { users } from "@/db/schema/users";
+export { users, userRelations } from "./users";
+export { sessions, sessionRelations } from "./sessions";
+export { accounts, accountsRelations } from "./accounts";
+export { verifications, verificationRelations } from "./verifications";

@@ -1,13 +1,19 @@
 import { z } from "zod";
-import { baseSchema } from "@/db/schema/users";
 
-// Zod Schema for sign up
 export const signupSchema = z
   .object({
-    fullName: baseSchema.shape.fullName,
-    email: baseSchema.shape.email,
-    password: baseSchema.shape.password,
-    confirmPassword: z.string().min(1, "Confirm password is required !"),
+    name: z.string().min(3, {
+      message: "Your name must be at least 3 characters long !",
+    }),
+    email: z.string().email({
+      message: "Please enter a valid email address !",
+    }),
+    password: z.string({ required_error: "Password is required !" }).min(6, {
+      message: "Password must be at least 6 characters long !",
+    }),
+    confirmPassword: z.string({
+      required_error: "Confirm password is required !",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match !",
