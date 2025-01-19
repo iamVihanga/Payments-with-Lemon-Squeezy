@@ -8,6 +8,20 @@
       "when": 1737143771122,
       "tag": "0000_pink_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737262508116,
+      "tag": "0001_bouncy_luminals",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737304365444,
+      "tag": "0002_mushy_kang",
+      "breakpoints": true
     }
   ]
 }

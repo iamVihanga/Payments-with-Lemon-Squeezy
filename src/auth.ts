@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { openAPI } from "better-auth/plugins";
+import { openAPI, admin } from "better-auth/plugins";
 
 import * as schema from "@/db/schema";
 import { db } from "./db";
@@ -15,10 +15,18 @@ export const auth = betterAuth({
     },
     usePlural: true,
   }),
-  plugins: [openAPI()],
+  user: {
+    additionalFields: {
+      premium: {
+        type: "boolean",
+        required: false,
+      },
+    },
+  },
+  plugins: [openAPI(), admin()],
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
 
     // This function is called when a user request reset password link
     sendResetPassword: async ({ user, url }) => {

@@ -12,6 +12,7 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  UserCog2Icon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/layouts/nav-main";
@@ -27,6 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { type Session } from "@/auth";
+import { NavAdmins } from "./nav-admin";
 
 // This is sample data.
 const data = {
@@ -156,6 +158,13 @@ const data = {
       icon: Map,
     },
   ],
+  admin: [
+    {
+      name: "User Management",
+      url: "/dashboard/manage-users",
+      icon: UserCog2Icon,
+    },
+  ],
 };
 
 export function AppSidebar({
@@ -168,7 +177,10 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
+        {props.session.user.role === "admin" && (
+          <NavAdmins adminLinks={data.admin} />
+        )}
       </SidebarContent>
       <SidebarFooter>
         <NavUser

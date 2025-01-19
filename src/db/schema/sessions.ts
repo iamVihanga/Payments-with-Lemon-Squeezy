@@ -9,6 +9,7 @@ export const sessions = pgTable("sessions", {
   token: text("token").notNull().unique(),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
+  impersonatedBy: text("impersonatedBy"),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   userId: text("user_id")
