@@ -1,16 +1,17 @@
-import React from "react";
-
+import React, { Suspense } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BellDotIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 
-type Props = {};
+import { Button } from "@/components/ui/button";
+import Loading from "./_components/loading";
+import { PlansSection } from "../../features/plans/components/plans-list";
 
-export default function Homepage({}: Props) {
+export default async function Homepage() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div>
+    <div className="min-h-screen bg-background ">
+      {/* Hero section */}
+      <div className="flex flex-col items-center justify-center h-screen">
         <div className="container px-4 py-12 mx-auto">
           <div className="flex justify-center mb-8">
             <Image
@@ -39,10 +40,13 @@ export default function Homepage({}: Props) {
             easy-to-use platform.
           </p>
 
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-8 items-center space-x-3">
             <Button className="w-fit group" variant={"yellow"} asChild>
-              <Link href={"/dashboard"}>
-                Get Started
+              <Link href={"/dashboard"}>Get Started</Link>
+            </Button>
+            <Button className="w-fit group" variant={"outline"} asChild>
+              <Link href={"/billing"}>
+                Go to Billing
                 <ArrowRight className="size-4 group-hover:ml-2 transition-all duration-100 ease-in-out" />
               </Link>
             </Button>

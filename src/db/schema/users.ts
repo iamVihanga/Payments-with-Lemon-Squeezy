@@ -9,6 +9,7 @@ import { relations } from "drizzle-orm";
 
 import { sessions } from "./sessions";
 import { accounts } from "./accounts";
+import { subscriptions } from "./subscriptions";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
@@ -28,6 +29,7 @@ export const users = pgTable("users", {
 export const userRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   accounts: many(accounts),
+  subscriptions: many(subscriptions),
 }));
 
 // Users type

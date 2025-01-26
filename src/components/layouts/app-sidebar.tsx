@@ -6,6 +6,7 @@ import {
   BookOpen,
   Bot,
   Command,
+  DollarSignIcon,
   Frame,
   GalleryVerticalEnd,
   Map,
@@ -163,6 +164,11 @@ const data = {
       name: "User Management",
       url: "/dashboard/manage-users",
       icon: UserCog2Icon,
+    },
+    {
+      name: "Subscription Plans",
+      url: "/dashboard/manage-plans",
+      icon: DollarSignIcon,
     },
   ],
 };

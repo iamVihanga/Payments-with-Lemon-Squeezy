@@ -26,7 +26,7 @@ export const auth = betterAuth({
   plugins: [openAPI(), admin()],
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
 
     // This function is called when a user request reset password link
     sendResetPassword: async ({ user, url }) => {

@@ -27,7 +27,7 @@ import { GoogleAuthButton } from "./google-auth-button";
 import { GithubAuthButton } from "./github-auth-button";
 import { Separator } from "@/components/ui/separator";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "../auth-client";
 
 type Props = {
@@ -36,8 +36,11 @@ type Props = {
 
 export function SigninForm({ className }: Props) {
   const [isPending, startSigninAction] = useTransition();
+  const searchParams = useSearchParams();
   const toastId = useId();
   const router = useRouter();
+
+  const redirectTo = searchParams.get("redirect_to");
 
   const form = useForm<SigninSchemaT>({
     resolver: zodResolver(signinSchema),
@@ -63,7 +66,7 @@ export function SigninForm({ className }: Props) {
               id: toastId,
               description: "",
             });
-            router.push("/dashboard");
+            router.push(redirectTo ? `/${redirectTo}` : "/dashboard");
             router.refresh();
           },
           onError: (ctx) => {

@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const envSchema = z.object({
   SITE_URL: z.string().min(1),
+  NEXT_PUBLIC_SITE_URL: z.string().min(1),
+
   RESEND_API_KEY: z.string().min(1),
 
   BETTER_AUTH_URL: z.string().min(1),
@@ -12,6 +14,11 @@ const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().min(1),
 
   DATABASE_URL: z.string().min(1),
+
+  WEBHOOK_URL: z.string().min(1),
+  LEMON_SQUEEZY_STORE_ID: z.string().min(1),
+  LEMON_SQUEEZY_WEBHOOK_SECRET: z.string().min(1),
+  LEMON_SQUEEZY_API_KEY: z.string().min(1),
 });
 
 const env = envSchema.parse(process.env);

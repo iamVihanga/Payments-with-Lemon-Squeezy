@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Bricolage_Grotesque } from "next/font/google";
+import Script from "next/script";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontHeading.variable} font-sans antialiased`}
       >
+        <Script src="https://app.lemonsqueezy.com/js/lemon.js" />
         <ThemeProvider attribute="class" defaultTheme="dark">
           {children}
         </ThemeProvider>

@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { SubscriptionButton } from "./subscription-button";
 
 interface PricingPlanProps {
   name: string;
@@ -17,6 +18,7 @@ interface PricingPlanProps {
   description: string;
   features: string[];
   popular?: boolean;
+  actionButton?: React.ReactNode;
 }
 
 export function PlanCard({
@@ -25,7 +27,10 @@ export function PlanCard({
   description,
   features,
   popular = false,
+  actionButton,
 }: PricingPlanProps) {
+  const regex = /(<([^>]+)>)/gi;
+
   return (
     <Card className={popular ? "border-primary" : ""}>
       <CardHeader>
@@ -33,7 +38,7 @@ export function PlanCard({
           {name}
           {popular && <Badge variant="secondary">Most Popular</Badge>}
         </CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription>{description.replace(regex, "")}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="mb-4">
@@ -52,9 +57,8 @@ export function PlanCard({
         </ul>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2">
-        <Button className="w-full">
-          {price === "Custom" ? "Contact Sales" : "Get Started"}
-        </Button>
+        {actionButton}
+
         <Button variant="outline" className="w-full">
           Learn More
         </Button>
