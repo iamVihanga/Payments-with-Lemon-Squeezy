@@ -1,5 +1,5 @@
 {
-  "id": "7d0da52e-63cd-4dc8-aebc-75a4ab368d4d",
+  "id": "28e7ec31-964e-44f2-977c-71304910e2c7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -331,9 +331,9 @@
         },
         "orderId": {
           "name": "orderId",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -466,13 +466,6 @@
           "nullsNotDistinct": false,
           "columns": [
             "lemonSqueezyId"
-          ]
-        },
-        "subscriptions_orderId_unique": {
-          "name": "subscriptions_orderId_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "orderId"
           ]
         }
       },

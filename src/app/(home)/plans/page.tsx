@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Loading from "../_components/loading";
 import { PlansSection } from "@/features/plans/components/plans-list";
 
-export default function BillingPage() {
+export default function PlansPage() {
   return (
     <div className="space-y-4 flex flex-col items-center justify-start h-screen py-12">
       <div className="space-y-2 flex flex-col items-center mb-14">

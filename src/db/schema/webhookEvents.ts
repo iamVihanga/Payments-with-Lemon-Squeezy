@@ -18,3 +18,6 @@ export const webhookEvents = pgTable("webhook_events", {
 
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+
+export type NewWebhookEvent = typeof webhookEvents.$inferInsert;
+export type WebhookEvent = typeof webhookEvents.$inferSelect;

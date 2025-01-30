@@ -22,7 +22,7 @@ export const subscriptions = pgTable("subscriptions", {
     .primaryKey()
     .$defaultFn(() => generateSubscriptionId()),
   lemonSqueezyId: text("lemonSqueezyId").unique(),
-  orderId: text("orderId").unique(),
+  orderId: integer("orderId").notNull(),
   name: text("name"),
   email: text("email"),
   status: text("status"),
@@ -51,3 +51,5 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
   plan: one(plans, { fields: [subscriptions.planId], references: [plans.id] }),
   user: one(users, { fields: [subscriptions.userId], references: [users.id] }),
 }));
+
+export type NewSubscription = typeof subscriptions.$inferInsert;

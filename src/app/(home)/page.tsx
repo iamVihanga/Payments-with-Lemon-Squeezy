@@ -45,8 +45,8 @@ export default async function Homepage() {
               <Link href={"/dashboard"}>Get Started</Link>
             </Button>
             <Button className="w-fit group" variant={"outline"} asChild>
-              <Link href={"/billing"}>
-                Go to Billing
+              <Link href={"/plans"}>
+                Explore Plans
                 <ArrowRight className="size-4 group-hover:ml-2 transition-all duration-100 ease-in-out" />
               </Link>
             </Button>

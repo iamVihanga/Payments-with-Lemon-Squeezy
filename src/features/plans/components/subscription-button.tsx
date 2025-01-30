@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { type PlanInput } from "@/db/schema/plan";
 
@@ -23,6 +23,7 @@ export function SubscriptionButton({
 }: SubscriptionButtonProps) {
   const [isPending, startAction] = useTransition();
   const router = useRouter();
+  const pathname = usePathname();
   const isCurrent = plan.id === currentPlan?.id;
 
   const label = isCurrent ? "Your plan" : "Sign up";
@@ -44,7 +45,7 @@ export function SubscriptionButton({
       } catch (error) {
         if (error instanceof Error && error.message === "Unauthorized") {
           toast.error("You need to be logged in to sign up for a plan.");
-          router.push("/signin?redirect_to=billing");
+          router.push(`/signin?redirect_to=${pathname}`);
           return;
         }
 

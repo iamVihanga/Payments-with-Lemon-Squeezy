@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SubscriptionButton } from "./subscription-button";
+import { cn } from "@/lib/utils";
 
 interface PricingPlanProps {
   name: string;
@@ -32,7 +33,7 @@ export function PlanCard({
   const regex = /(<([^>]+)>)/gi;
 
   return (
-    <Card className={popular ? "border-primary" : ""}>
+    <Card className={cn(popular ? "border-primary" : "", "flex flex-col")}>
       <CardHeader>
         <CardTitle className="font-heading flex items-center justify-between">
           {name}
@@ -40,7 +41,7 @@ export function PlanCard({
         </CardTitle>
         <CardDescription>{description.replace(regex, "")}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1">
         <div className="mb-4">
           <span className="text-3xl font-bold">{price}</span>
           {price !== "Custom" && (

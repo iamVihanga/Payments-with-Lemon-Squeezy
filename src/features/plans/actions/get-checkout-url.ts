@@ -6,7 +6,11 @@ import { createCheckout } from "@lemonsqueezy/lemonsqueezy.js";
 import { configureLemonSqueezy } from "@/lib/lemonsqueezy";
 import { auth } from "@/auth";
 
-export async function getCheckoutUrl(variantId: number, embed = false) {
+export async function getCheckoutUrl(
+  variantId: number,
+  embed = false,
+  redirectTo?: string
+) {
   configureLemonSqueezy();
 
   const session = await auth.api.getSession({
@@ -35,7 +39,9 @@ export async function getCheckoutUrl(variantId: number, embed = false) {
       },
       productOptions: {
         enabledVariants: [variantId],
-        redirectUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/billing`,
+        redirectUrl: `${process.env.NEXT_PUBLIC_SITE_URL}${
+          redirectTo || "/dashboard/billing"
+        }`,
         receiptButtonText: "Go to Dashboard",
         receiptThankYouNote: "Thank you for signing up to lemon squeezy app!",
       },

@@ -66,7 +66,7 @@ export function SigninForm({ className }: Props) {
               id: toastId,
               description: "",
             });
-            router.push(redirectTo ? `/${redirectTo}` : "/dashboard");
+            router.push(redirectTo ? `${redirectTo}` : "/dashboard");
             router.refresh();
           },
           onError: (ctx) => {
